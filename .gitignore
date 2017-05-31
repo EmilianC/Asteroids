@@ -1,0 +1,7 @@
+Log_Output.txt
+*.opendb
+*.TMP
+*.VC.db
+obj/
+Assets/
+bin/

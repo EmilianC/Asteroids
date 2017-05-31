@@ -1,2 +1,3 @@
-# Astroids
-Asteroids game demo for the Jewel3D framework.
+![Asteroids Logo](Splash.png)
+
+Small game demo for the Jewel3D framework.
