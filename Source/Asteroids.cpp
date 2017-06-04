@@ -27,7 +27,7 @@ void Asteroids::InitAsteroids(EntityGroup* a_rg)
 
 	m_background->RotateX(270.0f);
 	m_background->scale = -vec3::One * 20.0f;
-	m_background->position -= vec3::Y * 5.0f;
+	m_background->position -= vec3::Up * 5.0f;
 
 	SoundSource &music = m_background->Get<SoundSource>();
 	music.SetLooping(true);

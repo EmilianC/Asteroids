@@ -21,7 +21,7 @@ bool Game::Init()
 
 	//Setup Camera
 	MainCamera->Add<Camera>(20.0f, -20.0f, -20.0f, 20.0f, 0.0f, 20.0f);
-	MainCamera->position = vec3::Y * 10.0f;
+	MainCamera->position = vec3::Up * 10.0f;
 	MainCamera->RotateX(270.0f);
 
 	//Setup up renderer
