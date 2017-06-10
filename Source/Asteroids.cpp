@@ -13,17 +13,17 @@ void Asteroids::InitAsteroids(EntityGroup* a_rg)
 	m_renderGroup = a_rg;
 	m_spaceShip.m_parent = this;
 
-	m_spaceShip.m_spaceShipNode->Add<Mesh>(Load<Model>("Models/ship.model"));
-	m_spaceShip.m_spaceShipNode->Add<Material>(Load<Shader>("Shaders/WireFrame.shader")).CreateUniformBuffers();
-	m_spaceShip.m_spaceShipNode->Add<SoundSource>(Load<Sound>("Sounds/EE_HeroBullet.wav"));
+	m_spaceShip.m_spaceShipNode->Add<Mesh>(Load<Model>("Models/ship"));
+	m_spaceShip.m_spaceShipNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
+	m_spaceShip.m_spaceShipNode->Add<SoundSource>(Load<Sound>("Sounds/EE_HeroBullet"));
 
-	m_spaceShip.m_victorySound->Add<SoundSource>(Load<Sound>("Sounds/EE_Victory.wav"));
-	m_spaceShip.m_deathSound->Add<SoundSource>(Load<Sound>("Sounds/EE_Intro.wav"));
-	m_spaceShip.m_deathSound2->Add<SoundSource>(Load<Sound>("Sounds/EE_HeroExplode.wav"));
+	m_spaceShip.m_victorySound->Add<SoundSource>(Load<Sound>("Sounds/EE_Victory"));
+	m_spaceShip.m_deathSound->Add<SoundSource>(Load<Sound>("Sounds/EE_Intro"));
+	m_spaceShip.m_deathSound2->Add<SoundSource>(Load<Sound>("Sounds/EE_HeroExplode"));
 
-	m_background->Add<Mesh>(Load<Model>("Models/background.model"));
-	m_background->Add<Material>(Shader::MakeNewPassThrough(), Load<Texture>("Textures/title_background.texture")).CreateUniformBuffers();
-	m_background->Add<SoundSource>(Load<Sound>("Sounds/EE_VictoryMusic.wav"));
+	m_background->Add<Mesh>(Load<Model>("Models/background"));
+	m_background->Add<Material>(Shader::MakeNewPassThrough(), Load<Texture>("Textures/title_background")).CreateUniformBuffers();
+	m_background->Add<SoundSource>(Load<Sound>("Sounds/EE_VictoryMusic"));
 
 	m_background->RotateX(270.0f);
 	m_background->scale = -vec3::One * 20.0f;
@@ -43,8 +43,8 @@ void Asteroids::InitAsteroids(EntityGroup* a_rg)
 	for (int i = 0; i < NUM_START_ASTEROIDS; i++)
 	{
 		BigDebris* tempDebris = new BigDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_l.model"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame.shader")).CreateUniformBuffers();
+		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_l"));
+		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
 
 		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color",
 			vec3(RandomRangef(0,1), RandomRangef(0,1), RandomRangef(0,1)));
@@ -74,8 +74,8 @@ void Asteroids::ResetAsteroids()
 	for (int i = 0; i < NUM_START_ASTEROIDS + (m_spaceShip.m_level - 1); i++)
 	{
 		BigDebris* tempDebris = new BigDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_l.model"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame.shader")).CreateUniformBuffers();
+		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_l"));
+		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
 
 		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", 
 			vec3(RandomRangef(0, 1), RandomRangef(0, 1), RandomRangef(0, 1)));

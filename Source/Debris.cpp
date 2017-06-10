@@ -55,8 +55,8 @@ void MediumDebris::OnDestroy()
 	for (int i = 0; i < 3; i++)
 	{
 		SmallDebris* tempDebris = new SmallDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_s.model"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame.shader")).CreateUniformBuffers();
+		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_s"));
+		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
 
 		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color",
 			vec3(RandomRangef(0,1), RandomRangef(0,1), RandomRangef(0,1)));
@@ -84,8 +84,8 @@ void BigDebris::OnDestroy()
 	for (int i = 0; i < 3; i++)
 	{
 		MediumDebris* tempDebris = new MediumDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_m.model"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame.shader")).CreateUniformBuffers();
+		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_m"));
+		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
 
 		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color",
 			vec3(RandomRangef(0,1), RandomRangef(0,1), RandomRangef(0,1)));

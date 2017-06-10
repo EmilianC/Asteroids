@@ -34,7 +34,7 @@ void SpaceShip::Update(float a_deltaT)
 		if (m_parent->m_mainMenu)
 		{
 			m_parent->m_mainMenu = false;
-			m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background.texture");
+			m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
 
 			m_parent->m_background->Get<SoundSource>().Stop();
 		}
@@ -48,7 +48,7 @@ void SpaceShip::Update(float a_deltaT)
 		if (m_parent->m_mainMenu)
 		{
 	 		m_parent->m_mainMenu = false;
-			m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background.texture");
+			m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
 			m_parent->m_background->Get<SoundSource>().Stop();
 		}
 
@@ -71,7 +71,7 @@ void SpaceShip::Update(float a_deltaT)
 		if (m_parent->m_mainMenu)
 		{
 			m_parent->m_mainMenu = false;
-			m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background.texture");
+			m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
 			m_parent->m_background->Get<SoundSource>().Stop();
 		}
 
@@ -118,7 +118,7 @@ void SpaceShip::Update(float a_deltaT)
 		m_parent->m_spaceShip.m_score = 0;
 		m_parent->m_spaceShip.m_level = 1;
 		m_parent->m_mainMenu = true;
-		m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/title_background.texture");
+		m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/title_background");
 
 		Log("\nDead!\n");
 
@@ -130,7 +130,7 @@ void SpaceShip::Update(float a_deltaT)
 		m_level = m_level + 1;
 		m_parent->ResetAsteroids();
 		m_parent->m_mainMenu = true;
-		m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/finished_background.texture");
+		m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/finished_background");
 
 		Log("\nNext Level!\n");
 
@@ -144,9 +144,9 @@ void SpaceShip::CreateBullet()
 
 	tempBullet->m_bulletNode->rotation = m_spaceShipNode->rotation;
 	tempBullet->m_bulletNode->position = m_spaceShipNode->position + m_spaceShipNode->rotation.GetForward() * 1.5f;
-	tempBullet->m_bulletNode->Add<Mesh>(Load<Model>("Models/asteroid_s.model"));
-	tempBullet->m_bulletNode->Add<Material>(Load<Shader>("Shaders/WireFrame.shader")).CreateUniformBuffers();
-	tempBullet->m_bulletNode->Add<SoundSource>(Load<Sound>("Sounds/EE_AlienExplode.wav"));
+	tempBullet->m_bulletNode->Add<Mesh>(Load<Model>("Models/asteroid_s"));
+	tempBullet->m_bulletNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
+	tempBullet->m_bulletNode->Add<SoundSource>(Load<Sound>("Sounds/EE_AlienExplode"));
 
 	tempBullet->m_bulletNode->Get<Material>().buffers[0]->SetUniform("Color", vec3(1.0f, 1.0f, 1.0f));
 
@@ -173,8 +173,8 @@ void SpaceShip::Destroy()
 	for (int i = 0; i < 8; i++)
 	{
 		SmallDebris* tempDebris = new SmallDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_m.model"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame.shader")).CreateUniformBuffers();
+		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_m"));
+		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
 
 		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", vec3(1.0f, 1.0f, 1.0f));
 		tempDebris->m_speed = 4.0f;
