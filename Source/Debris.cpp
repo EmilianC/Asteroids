@@ -16,8 +16,8 @@ void Debris::MoveRandom()
 		m_randomSpin[i] = RandomDirection();
 	}
 
-	m_velocity.x = RandomRangef(-1.0f, 1.0f);
-	m_velocity.z = RandomRangef(-1.0f, 1.0f);
+	m_velocity.x = RandomRange(-1.0f, 1.0f);
+	m_velocity.z = RandomRange(-1.0f, 1.0f);
 	m_velocity.Normalize();
 }
 
@@ -54,12 +54,11 @@ void MediumDebris::OnDestroy()
 
 	for (int i = 0; i < 3; i++)
 	{
-		SmallDebris* tempDebris = new SmallDebris();
+		auto tempDebris = new SmallDebris();
 		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_s"));
 		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
 
-		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color",
-			vec3(RandomRangef(0,1), RandomRangef(0,1), RandomRangef(0,1)));
+		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", RandomColor());
 
 		tempDebris->m_debrisNode->position = m_debrisNode->position;
 		tempDebris->MoveRandom();
@@ -83,12 +82,11 @@ void BigDebris::OnDestroy()
 
 	for (int i = 0; i < 3; i++)
 	{
-		MediumDebris* tempDebris = new MediumDebris();
+		auto tempDebris = new MediumDebris();
 		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_m"));
 		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
 
-		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color",
-			vec3(RandomRangef(0,1), RandomRangef(0,1), RandomRangef(0,1)));
+		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", RandomColor());
 
 		tempDebris->m_debrisNode->position = m_debrisNode->position;
 		tempDebris->MoveRandom();

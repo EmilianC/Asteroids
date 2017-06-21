@@ -46,8 +46,7 @@ void Asteroids::InitAsteroids(EntityGroup* a_rg)
 		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_l"));
 		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
 
-		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color",
-			vec3(RandomRangef(0,1), RandomRangef(0,1), RandomRangef(0,1)));
+		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", RandomColor());
 
 		tempDebris->m_debrisNode->position =
 			vec3(sin(ToRadian(i * (360.0f / NUM_START_ASTEROIDS))) * 13.0f, 0.0f, cos(ToRadian(i * (360.0f / NUM_START_ASTEROIDS))) * 13.0f);
@@ -77,8 +76,7 @@ void Asteroids::ResetAsteroids()
 		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_l"));
 		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
 
-		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", 
-			vec3(RandomRangef(0, 1), RandomRangef(0, 1), RandomRangef(0, 1)));
+		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", RandomColor());
 
 		tempDebris->m_debrisNode->position =
 			vec3(sin(ToRadian(i * (360.0f / (NUM_START_ASTEROIDS + (m_spaceShip.m_level - 1))))) * 13.0f,
