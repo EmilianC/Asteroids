@@ -79,6 +79,11 @@ void Debris::Update()
 
 void Debris::Destroy()
 {
+	if (!alive)
+		return;
+
+	alive = false;
+
 	if (size > Small)
 	{
 		for (unsigned i = 0; i < 3; i++)
@@ -89,6 +94,9 @@ void Debris::Destroy()
 			debris->Add<Debris>(speed * 1.5f, static_cast<Size>(size - 1));
 		}
 	}
+}
 
-	alive = false;
+bool Debris::IsAlive() const
+{
+	return alive;
 }

@@ -76,6 +76,9 @@ void Asteroids::Update(float a_deltaT)
 		auto& debris = ent->Get<Debris>();
 		debris.Update();
 
+		if (!debris.IsAlive())
+			continue;
+
 		if (spaceShip.alive && 
 			(ent->position - spaceShip.m_spaceShipNode->position).LengthSquared() < (debris.size * debris.size))
 		{

@@ -40,12 +40,12 @@ Geometry
 			vec3 halfway = (p1 + p2) * 0.5;
 
 			gl_Position.xyz = mix(p1, halfway, Material.Animation);
-			gl_Position.xyz *= mix(1.0, 1.5, Material.Animation);
+			gl_Position.xyz *= mix(1.0, 1.8, Material.Animation);
 			gl_Position = Jwl_MVP * vec4(gl_Position.xyz, 1.0);
 			EmitVertex();
 
 			gl_Position.xyz = mix(p2, halfway, Material.Animation);
-			gl_Position.xyz *= mix(1.0, 1.5, Material.Animation);
+			gl_Position.xyz *= mix(1.0, 1.8, Material.Animation);
 			gl_Position = Jwl_MVP * vec4(gl_Position.xyz, 1.0);
 			EmitVertex();
 

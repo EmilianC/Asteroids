@@ -15,6 +15,7 @@ public:
 
 	void Update();
 	void Destroy();
+	bool IsAlive() const;
 
 	const float speed;
 	const Size size;
