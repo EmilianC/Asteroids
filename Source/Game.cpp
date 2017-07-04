@@ -1,4 +1,6 @@
 #include "Game.h"
+#include "Persistent.h"
+#include "Bullet.h"
 
 #include <Jewel3D/Application/Application.h>
 #include <Jewel3D/Application/Logging.h>
@@ -6,6 +8,7 @@
 #include <Jewel3D/Resource/Shader.h>
 #include <Jewel3D/Sound/SoundSystem.h>
 #include <Jewel3D/Rendering/Camera.h>
+#include <Jewel3D/Input/Input.h>
 
 using namespace Jwl;
 
@@ -19,19 +22,19 @@ bool Game::Init()
 	SoundSystem.SetGlobalVolume(0.2f);
 	SoundSystem.SetAttenuationMode(AttenuationMode::None);
 
-	//Setup Camera
+	// Setup Camera.
 	MainCamera->Add<Camera>(20.0f, -20.0f, -20.0f, 20.0f, 0.0f, 20.0f);
 	MainCamera->position = vec3::Up * 10.0f;
 	MainCamera->RotateX(270.0f);
 
-	//Setup up renderer
+	// Setup up renderer.
 	MainRenderPass.SetCamera(MainCamera);
 
-	game.InitAsteroids(&MainGroup);
+	asteroids.Init(&MainGroup);
 
-	MainGroup.Add(game.m_spaceShip.m_spaceShipNode);
+	MainGroup.Add(asteroids.spaceShip.m_spaceShipNode);
 
-	//Setup GL States
+	// Setup GL States.
 	SetClearColor(vec4::Zero);
 	SetCullFunc(CullFunc::Clockwise);
 	SetDepthFunc(DepthFunc::Normal);
@@ -45,9 +48,23 @@ void Game::Exit()
 
 void Game::Update()
 {
-	game.UpdateAsteroids(Application.GetDeltaTime());
+	if (Input.IsDown(Key::Escape))
+	{
+		Application.Exit();
+		return;
+	}
+
+	for (auto& bullet : All<Bullet>())
+	{
+		bullet.Update();
+	}
+
+	asteroids.Update(Application.GetDeltaTime());
 
 	Application.UpdateEngine();
+
+	// Delete old entities.
+	Persistent::Collect();
 }
 
 void Game::Draw()
@@ -55,4 +72,14 @@ void Game::Draw()
 	ClearBackBuffer();
 
 	MainRenderPass.Render(MainGroup);
+
+	for (auto& bullet : With<Bullet>())
+	{
+		MainRenderPass.Render(bullet);
+	}
+
+	for (auto& debris : With<Debris>())
+	{
+		MainRenderPass.Render(debris);
+	}
 }

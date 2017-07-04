@@ -30,6 +30,12 @@
     <ClCompile Include="Source\SpaceShip.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Persistent.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bullet.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Asteroids.h">
@@ -42,6 +48,12 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\SpaceShip.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Persistent.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

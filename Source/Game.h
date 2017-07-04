@@ -31,5 +31,5 @@ private:
 
 	Jwl::ConfigTable& Config;
 
-	Asteroids game;
+	Asteroids asteroids;
 };

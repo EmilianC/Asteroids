@@ -1,127 +1,113 @@
 #include "Asteroids.h"
+#include "Bullet.h"
+#include "Persistent.h"
 
 #include <Jewel3D/Sound/SoundSource.h>
+#include <Jewel3D/Sound/SoundListener.h>
 #include <Jewel3D/Rendering/Mesh.h>
 #include <Jewel3D/Rendering/Material.h>
 #include <Jewel3D/Utilities/Random.h>
 #include <Jewel3D/Math/Math.h>
 
+#define NUM_START_ASTEROIDS 4
+
 using namespace Jwl;
 
-void Asteroids::InitAsteroids(EntityGroup* a_rg)
+void Asteroids::Init(EntityGroup* a_rg)
 {
-	m_renderGroup = a_rg;
-	m_spaceShip.m_parent = this;
+	renderGroup = a_rg;
+	spaceShip.m_parent = this;
 
-	m_spaceShip.m_spaceShipNode->Add<Mesh>(Load<Model>("Models/ship"));
-	m_spaceShip.m_spaceShipNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
-	m_spaceShip.m_spaceShipNode->Add<SoundSource>(Load<Sound>("Sounds/EE_HeroBullet"));
+	spaceShip.m_spaceShipNode->Add<Mesh>(Load<Model>("Models/ship"));
+	spaceShip.m_spaceShipNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
+	spaceShip.m_spaceShipNode->Get<Material>().buffers[0]->SetUniform("Color", vec3(1.0f, 1.0f, 1.0f));
+	spaceShip.m_spaceShipNode->Add<SoundSource>(Load<Sound>("Sounds/HeroBullet"));
 
-	m_spaceShip.m_victorySound->Add<SoundSource>(Load<Sound>("Sounds/EE_Victory"));
-	m_spaceShip.m_deathSound->Add<SoundSource>(Load<Sound>("Sounds/EE_Intro"));
-	m_spaceShip.m_deathSound2->Add<SoundSource>(Load<Sound>("Sounds/EE_HeroExplode"));
+	spaceShip.m_victorySound->Add<SoundSource>(Load<Sound>("Sounds/Victory"));
+	spaceShip.m_deathSound->Add<SoundSource>(Load<Sound>("Sounds/Intro"));
+	spaceShip.m_deathSound2->Add<SoundSource>(Load<Sound>("Sounds/HeroExplode"));
 
-	m_background->Add<Mesh>(Load<Model>("Models/background"));
-	m_background->Add<Material>(Shader::MakeNewPassThrough(), Load<Texture>("Textures/title_background")).CreateUniformBuffers();
-	m_background->Add<SoundSource>(Load<Sound>("Sounds/EE_VictoryMusic"));
+	background->Add<Mesh>(Load<Model>("Models/background"));
+	background->Add<Material>(Shader::MakeNewPassThrough(), Load<Texture>("Textures/title_background")).CreateUniformBuffers();
+	background->Add<SoundSource>(Load<Sound>("Sounds/VictoryMusic"));
 
-	m_background->RotateX(270.0f);
-	m_background->scale = -vec3::One * 20.0f;
-	m_background->position -= vec3::Up * 5.0f;
+	background->RotateX(270.0f);
+	background->scale = -vec3::One * 20.0f;
+	background->position -= vec3::Up * 5.0f;
 
-	SoundSource &music = m_background->Get<SoundSource>();
+	SoundSource &music = background->Get<SoundSource>();
 	music.SetLooping(true);
 	music.Play();
 
-	m_renderGroup->Add(m_background);
+	renderGroup->Add(background);
 	
-	m_listener->Add<SoundListener>();
-	m_listener->RotateY(180.0f);
-
-	m_spaceShip.m_spaceShipNode->Get<Material>().buffers[0]->SetUniform("Color", vec3(1.0f, 1.0f, 1.0f));
-
-	for (int i = 0; i < NUM_START_ASTEROIDS; i++)
-	{
-		BigDebris* tempDebris = new BigDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_l"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
-
-		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", RandomColor());
-
-		tempDebris->m_debrisNode->position =
-			vec3(sin(ToRadian(i * (360.0f / NUM_START_ASTEROIDS))) * 13.0f, 0.0f, cos(ToRadian(i * (360.0f / NUM_START_ASTEROIDS))) * 13.0f);
-		tempDebris->MoveRandom();
-
-		m_renderGroup->Add(tempDebris->m_debrisNode);
-		tempDebris->SetShip(&m_spaceShip);
-
-		m_debrisList.push_back(tempDebris);
-	}
+	listener->Add<SoundListener>();
+	listener->RotateY(180.0f);
 }
 
-void Asteroids::ResetAsteroids()
+void Asteroids::Reset()
 {
-	for (auto debris : m_debrisList)
+	for (auto& ent : With<Debris>())
 	{
-		m_renderGroup->Remove(*debris->m_debrisNode);
-	}
-	m_debrisList.clear();
-
-	m_spaceShip.m_spaceShipNode->Enable();
-	m_spaceShip.Reset();	
-
-	for (int i = 0; i < NUM_START_ASTEROIDS + (m_spaceShip.m_level - 1); i++)
-	{
-		BigDebris* tempDebris = new BigDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_l"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
-
-		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", RandomColor());
-
-		tempDebris->m_debrisNode->position =
-			vec3(sin(ToRadian(i * (360.0f / (NUM_START_ASTEROIDS + (m_spaceShip.m_level - 1))))) * 13.0f,
-			0.0f, cos(ToRadian(i * (360.0f / (NUM_START_ASTEROIDS + (m_spaceShip.m_level - 1))))) * 13.0f);
-		tempDebris->MoveRandom();
-
-		m_renderGroup->Add(tempDebris->m_debrisNode);
-		tempDebris->SetShip(&m_spaceShip);
-
-		m_debrisList.push_back(tempDebris);
+		ent.Get<Persistent>().MarkForDestruction();
 	}
 
-	m_mainMenu = false;
+	for (auto& ent : With<Bullet>())
+	{
+		ent.Get<Persistent>().MarkForDestruction();
+	}
+
+	spaceShip.Reset();
+
+	PlaceAsteroids();
+
+	mainMenu = false;
 }
 
-void Asteroids::UpdateAsteroids(float a_deltaT)
+void Asteroids::Update(float a_deltaT)
 {
-	m_spaceShip.Update(a_deltaT);
+	spaceShip.Update(a_deltaT);
 
-	if (m_mainMenu)
+	if (mainMenu)
 		return;
 
-	for (auto itr = m_debrisList.begin(); itr != m_debrisList.end(); itr++)
+	for (auto& ent : CaptureWith<Debris>())
 	{
- 		(*itr)->Update(a_deltaT);
+		auto& debris = ent->Get<Debris>();
+		debris.Update();
 
-		if (((*itr)->m_debrisNode->position - m_spaceShip.m_spaceShipNode->position).Length() < (*itr)->m_size + 0.5f
-			&& m_spaceShip.m_spaceShipNode->IsEnabled())
+		if (spaceShip.alive && 
+			(ent->position - spaceShip.m_spaceShipNode->position).LengthSquared() < (debris.size * debris.size))
 		{
-			m_spaceShip.Destroy();
+			spaceShip.Destroy();
 			return;
 		}
 
-		for (auto itr2 = m_spaceShip.m_bullets.begin(); itr2 != m_spaceShip.m_bullets.end(); ++itr2)
+		for (auto& bullet : With<Bullet>())
 		{
-			if (((*itr)->m_debrisNode->position - (*itr2)->m_bulletNode->position).Length() < (*itr)->m_size)
+			if ((debris.owner.position - bullet.position).LengthSquared() < (debris.size * debris.size))
 			{
-				(*itr2)->m_age = 50.0f; // I don't want to destroy it here.
-				(*itr2)->m_bulletNode->Get<SoundSource>().Play();
+				bullet.Get<Persistent>().MarkForDestruction();
+				bullet.Get<SoundSource>().Play();
 
-				Debris* temp = (*itr);
-				m_debrisList.erase(itr);
-				temp->OnDestroy();
-				return;
+				debris.Destroy();
 			}
 		}
+	}
+}
+
+void Asteroids::PlaceAsteroids()
+{
+	auto amount = NUM_START_ASTEROIDS + (spaceShip.m_level - 1);
+
+	for (int i = 0; i < amount; i++)
+	{
+		auto debris = Entity::MakeNew();
+		debris->Add<Debris>(1.0f, Debris::Size::Large);
+
+		debris->position =
+			vec3(sin(ToRadian(i * (360.0f / amount))),
+				0.0f,
+				cos(ToRadian(i * (360.0f / amount)))) * 13.0f;
 	}
 }
