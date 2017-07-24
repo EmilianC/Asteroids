@@ -47,8 +47,7 @@ void Game::Update()
 {
 	game.UpdateAsteroids(Application.GetDeltaTime());
 
-	//Keep sound subsystem up to date
-	SoundSystem.Update();
+	Application.UpdateEngine();
 }
 
 void Game::Draw()
