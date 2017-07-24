@@ -25,15 +25,15 @@ Debris::Debris(Entity &owner, float _speed, Size _size)
 	switch (size)
 	{
 	case Small:
-		mesh.AddData(Load<Model>("Models/asteroid_small"));
+		mesh.model = Load<Model>("Models/asteroid_small");
 		break;
 
 	case Medium:
-		mesh.AddData(Load<Model>("Models/asteroid_medium"));
+		mesh.model = Load<Model>("Models/asteroid_medium");
 		break;
 
 	case Large:
-		mesh.AddData(Load<Model>("Models/asteroid_large"));
+		mesh.model = Load<Model>("Models/asteroid_large");
 		break;
 	}
 

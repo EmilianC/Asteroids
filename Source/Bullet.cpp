@@ -12,14 +12,14 @@ Bullet::Bullet(Entity &owner)
 	: Component(owner)
 {
 	auto& mesh = owner.Require<Mesh>();
-	mesh.AddData(Load<Model>("Models/asteroid_small"));
+	mesh.model = Load<Model>("Models/asteroid_small");
 
 	auto& mat = owner.Require<Material>();
 	mat.shader = Load<Shader>("Shaders/WireFrame");
 	mat.CreateUniformBuffers();
 
 	auto& sound = owner.Require<SoundSource>();
-	sound.AddData(Load<Sound>("Sounds/AlienExplode"));
+	sound.SetData(Load<Sound>("Sounds/AlienExplode"));
 
 	owner.Require<Persistent>();
 }
