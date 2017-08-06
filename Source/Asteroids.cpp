@@ -1,4 +1,5 @@
 #include "Asteroids.h"
+#include "Debris.h"
 #include "Bullet.h"
 #include "Persistent.h"
 
@@ -6,7 +7,6 @@
 #include <Jewel3D/Sound/SoundListener.h>
 #include <Jewel3D/Rendering/Mesh.h>
 #include <Jewel3D/Rendering/Material.h>
-#include <Jewel3D/Utilities/Random.h>
 #include <Jewel3D/Math/Math.h>
 
 #define NUM_START_ASTEROIDS 4

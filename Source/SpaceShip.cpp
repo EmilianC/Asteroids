@@ -1,8 +1,8 @@
-#include "SpaceShip.h"
-#include "Bullet.h"
 #include "Asteroids.h"
+#include "Bullet.h"
+#include "Debris.h"
+#include "SpaceShip.h"
 
-#include <Jewel3D/Application/Application.h>
 #include <Jewel3D/Input/Input.h>
 #include <Jewel3D/Sound/SoundSource.h>
 #include <Jewel3D/Rendering/Mesh.h>

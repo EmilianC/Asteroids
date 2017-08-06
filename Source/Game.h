@@ -2,7 +2,6 @@
 #include <Jewel3D/Entity/Entity.h>
 #include <Jewel3D/Entity/EntityGroup.h>
 #include <Jewel3D/Rendering/RenderPass.h>
-#include <Jewel3D/Resource/Shader.h>
 
 #include "Asteroids.h"
 
