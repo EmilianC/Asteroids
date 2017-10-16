@@ -1,7 +1,8 @@
-#include "SpaceShip.h"
 #include "Asteroids.h"
+#include "Bullet.h"
+#include "Debris.h"
+#include "SpaceShip.h"
 
-#include <Jewel3D/Application/Application.h>
 #include <Jewel3D/Input/Input.h>
 #include <Jewel3D/Sound/SoundSource.h>
 #include <Jewel3D/Rendering/Mesh.h>
@@ -11,32 +12,41 @@ using namespace Jwl;
 
 void SpaceShip::Update(float a_deltaT)
 {
-	if (Input.IsDown(Key::Escape))
+	if (!alive)
 	{
-		Application.Exit();
-		return;
-	}
+		elapsed += a_deltaT;
 
-	for (auto itr = m_bullets.begin(), itrEnd = m_bullets.end(); itr != itrEnd; ++itr)
-	{
-		(*itr)->Update(a_deltaT);
-
-		if ((*itr)->m_age > 2.0f)
+		if (elapsed > 1.0f)
 		{
-			m_parent->m_renderGroup->Remove(*(*itr)->m_bulletNode);
-			m_bullets.erase(itr);
-			break;
+			Log("Dead!");
+
+			elapsed = 0.0f;
+			m_score = 0;
+			m_level = 1;
+
+			m_parent->Reset();
+			m_parent->mainMenu = true;
+			m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/title_background");
+			m_spaceShipNode->Get<Material>().buffers[0]->SetUniform("Animation", 0.0f);
+
+			m_parent->background->Get<SoundSource>().Play();
 		}
+		else
+		{
+			m_spaceShipNode->Get<Material>().buffers[0]->SetUniform("Animation", elapsed);
+		}
+
+		return;
 	}
 
 	if (Input.IsDown(Key::Up) && m_speed < 10.5f)
 	{
-		if (m_parent->m_mainMenu)
+		if (m_parent->mainMenu)
 		{
-			m_parent->m_mainMenu = false;
-			m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
+			m_parent->mainMenu = false;
+			m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
 
-			m_parent->m_background->Get<SoundSource>().Stop();
+			m_parent->background->Get<SoundSource>().Stop();
 		}
 
 		m_velocity += m_spaceShipNode->rotation.GetForward() * a_deltaT;
@@ -45,11 +55,11 @@ void SpaceShip::Update(float a_deltaT)
 
 	if (Input.IsDown(Key::Down) && m_speed > -10.5f)
 	{
-		if (m_parent->m_mainMenu)
+		if (m_parent->mainMenu)
 		{
-	 		m_parent->m_mainMenu = false;
-			m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
-			m_parent->m_background->Get<SoundSource>().Stop();
+	 		m_parent->mainMenu = false;
+			m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
+			m_parent->background->Get<SoundSource>().Stop();
 		}
 
 		m_velocity += m_spaceShipNode->rotation.GetForward() * a_deltaT;
@@ -68,16 +78,16 @@ void SpaceShip::Update(float a_deltaT)
 
 	if (Input.IsDown(Key::Space) && m_coolDown < 0.0f)
 	{
-		if (m_parent->m_mainMenu)
+		if (m_parent->mainMenu)
 		{
-			m_parent->m_mainMenu = false;
-			m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
-			m_parent->m_background->Get<SoundSource>().Stop();
+			m_parent->mainMenu = false;
+			m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
+			m_parent->background->Get<SoundSource>().Stop();
 		}
 
 		SoundSource &bullet = m_spaceShipNode->Get<SoundSource>();
 		bullet.Play();
-		m_coolDown = 1.0f;
+		m_coolDown = 0.7f;
 
 		CreateBullet();
 	}
@@ -110,27 +120,12 @@ void SpaceShip::Update(float a_deltaT)
 		m_spaceShipNode->position.z *= -0.99f;
 	}
 
-	m_resetTimer -= a_deltaT;
-
-	if (m_resetTimer < 0.0f && !m_spaceShipNode->IsEnabled())
-	{
-		m_parent->ResetAsteroids();
-		m_parent->m_spaceShip.m_score = 0;
-		m_parent->m_spaceShip.m_level = 1;
-		m_parent->m_mainMenu = true;
-		m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/title_background");
-
-		Log("\nDead!\n");
-
-		m_parent->m_background->Get<SoundSource>().Play();
-	}
-
-	if (m_parent->m_debrisList.size() == 0 && m_spaceShipNode->IsEnabled())
+	if (GetComponentIndex<Debris>().size() == 0 && alive)
 	{
 		m_level = m_level + 1;
-		m_parent->ResetAsteroids();
-		m_parent->m_mainMenu = true;
-		m_parent->m_background->Get<Material>().textures[0] = Load<Texture>("Textures/finished_background");
+		m_parent->Reset();
+		m_parent->mainMenu = true;
+		m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/finished_background");
 
 		Log("\nNext Level!\n");
 
@@ -140,19 +135,11 @@ void SpaceShip::Update(float a_deltaT)
 
 void SpaceShip::CreateBullet()
 {
-	Bullet* tempBullet = new Bullet();
+	auto bullet = Entity::MakeNew();
+	bullet->Add<Bullet>();
 
-	tempBullet->m_bulletNode->rotation = m_spaceShipNode->rotation;
-	tempBullet->m_bulletNode->position = m_spaceShipNode->position + m_spaceShipNode->rotation.GetForward() * 1.5f;
-	tempBullet->m_bulletNode->Add<Mesh>(Load<Model>("Models/asteroid_s"));
-	tempBullet->m_bulletNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
-	tempBullet->m_bulletNode->Add<SoundSource>(Load<Sound>("Sounds/EE_AlienExplode"));
-
-	tempBullet->m_bulletNode->Get<Material>().buffers[0]->SetUniform("Color", vec3(1.0f, 1.0f, 1.0f));
-
-	m_parent->m_renderGroup->Add(tempBullet->m_bulletNode);
-
-	m_bullets.push_back(tempBullet);
+	bullet->rotation = m_spaceShipNode->rotation;
+	bullet->position = m_spaceShipNode->position + m_spaceShipNode->rotation.GetForward() * 1.5f;
 }
 
 void SpaceShip::Destroy()
@@ -160,31 +147,7 @@ void SpaceShip::Destroy()
 	m_deathSound->Get<SoundSource>().Play();
 	m_deathSound2->Get<SoundSource>().Play();
 
-	m_spaceShipNode->Disable();
-	m_resetTimer = 5.0f;
-	
-	for (auto debris : m_parent->m_debrisList)
-	{
-		m_parent->m_renderGroup->Remove(*debris->m_debrisNode);
-	}
-	m_parent->m_debrisList.clear();
-	m_parent->m_mainMenu = true;
+	alive = false;
 
-	for (int i = 0; i < 8; i++)
-	{
-		SmallDebris* tempDebris = new SmallDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_m"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
-
-		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", vec3(1.0f, 1.0f, 1.0f));
-		tempDebris->m_speed = 4.0f;
-
-		tempDebris->m_debrisNode->position = m_spaceShipNode->position;
-		tempDebris->MoveRandom();
-
-		m_parent->m_renderGroup->Add(tempDebris->m_debrisNode);
-		tempDebris->SetShip(this);
-
-		m_parent->m_debrisList.push_back(tempDebris);
-	}
+	m_parent->mainMenu = true;
 }

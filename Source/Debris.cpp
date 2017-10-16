@@ -1,105 +1,102 @@
 #include "Debris.h"
-#include "Asteroids.h"
-#include "SpaceShip.h"
+#include "Persistent.h"
 
+#include <Jewel3D/Application/Application.h>
 #include <Jewel3D/Utilities/Random.h>
 #include <Jewel3D/Rendering/Material.h>
 #include <Jewel3D/Rendering/Mesh.h>
 
 using namespace Jwl;
 
-void Debris::MoveRandom()
+Debris::Debris(Entity &owner, float _speed, Size _size)
+	: Component(owner)
+	, speed(_speed)
+	, size(_size)
+	, scoreValue(_size * 100)
 {
-	// Two Random axis of rotation
-	for (int i = 0; i < 2; i++)
+	randomSpin[0] = RandomDirection();
+	randomSpin[1] = RandomDirection();
+
+	velocity.x = RandomRange(-1.0f, 1.0f);
+	velocity.z = RandomRange(-1.0f, 1.0f);
+	velocity.Normalize();
+
+	auto& mesh = owner.Require<Mesh>();
+	switch (size)
 	{
-		m_randomSpin[i] = RandomDirection();
+	case Small:
+		mesh.model = Load<Model>("Models/asteroid_small");
+		break;
+
+	case Medium:
+		mesh.model = Load<Model>("Models/asteroid_medium");
+		break;
+
+	case Large:
+		mesh.model = Load<Model>("Models/asteroid_large");
+		break;
 	}
 
-	m_velocity.x = RandomRange(-1.0f, 1.0f);
-	m_velocity.z = RandomRange(-1.0f, 1.0f);
-	m_velocity.Normalize();
+	auto& mat = owner.Require<Material>();
+	mat.shader = Load<Shader>("Shaders/WireFrame");
+	mat.CreateUniformBuffers();
+	mat.buffers[0]->SetUniform("Color", vec3(RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f)));
+
+	owner.Require<Persistent>();
 }
 
-void Debris::Update(float a_deltaT)
+void Debris::Update()
 {
-	m_debrisNode->Rotate(m_randomSpin[0], a_deltaT * 35.0f);
-	m_debrisNode->Rotate(m_randomSpin[1], a_deltaT * 35.0f);
+	owner.Rotate(randomSpin[0], Application.GetDeltaTime() * 35.0f);
+	owner.Rotate(randomSpin[1], Application.GetDeltaTime() * 35.0f);
 
-	m_debrisNode->position += m_velocity * a_deltaT * m_speed;
+	owner.position += velocity * Application.GetDeltaTime() * speed;
 
-	if (abs(m_debrisNode->position.x) > 22.5f)
+	// Wrap around the screen.
+	if (abs(owner.position.x) > 22.5f)
 	{
-		m_debrisNode->position.x *= -0.99f;
+		owner.position.x *= -0.99f;
 	}
 
-	if (abs(m_debrisNode->position.z) > 22.5f)
+	if (abs(owner.position.z) > 22.5f)
 	{
-		m_debrisNode->position.z *= -0.99f;
+		owner.position.z *= -0.99f;
 	}
-}
 
-void SmallDebris::OnDestroy()
-{
-	GetShip()->AddScore(300);
-
-	GetShip()->m_parent->m_renderGroup->Remove(*m_debrisNode);
-	m_debrisNode->RemoveComponent<Material>();
-	m_debrisNode->RemoveComponent<Mesh>();
-}
-
-void MediumDebris::OnDestroy()
-{
-	GetShip()->AddScore(200);
-
-	for (int i = 0; i < 3; i++)
+	if (!alive)
 	{
-		auto tempDebris = new SmallDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_s"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
-
-		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", RandomColor());
-
-		tempDebris->m_debrisNode->position = m_debrisNode->position;
-		tempDebris->MoveRandom();
-		tempDebris->m_speed = 3.0f;
-		tempDebris->m_size = 1.0f;
-
-		GetShip()->m_parent->m_renderGroup->Add(tempDebris->m_debrisNode);
-		tempDebris->SetShip(GetShip());
-
-		GetShip()->m_parent->m_debrisList.push_back(tempDebris);
-
-		GetShip()->m_parent->m_renderGroup->Remove(*m_debrisNode);
-		m_debrisNode->RemoveComponent<Material>();
-		m_debrisNode->RemoveComponent<Mesh>();
+		elapsed += Application.GetDeltaTime() * 3.0f;
+		if (elapsed > 1.0f)
+		{
+			owner.Get<Persistent>().MarkForDestruction();
+		}
+		else
+		{
+			owner.Get<Material>().buffers[0]->SetUniform("Animation", elapsed);
+		}
 	}
 }
 
-void BigDebris::OnDestroy()
+void Debris::Destroy()
 {
-	GetShip()->AddScore(100);
+	if (!alive)
+		return;
 
-	for (int i = 0; i < 3; i++)
+	alive = false;
+
+	if (size > Small)
 	{
-		auto tempDebris = new MediumDebris();
-		tempDebris->m_debrisNode->Add<Mesh>(Load<Model>("Models/asteroid_m"));
-		tempDebris->m_debrisNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
+		for (unsigned i = 0; i < 3; i++)
+		{
+			auto debris = Entity::MakeNew();
+			debris->position = owner.position;
 
-		tempDebris->m_debrisNode->Get<Material>().buffers[0]->SetUniform("Color", RandomColor());
-
-		tempDebris->m_debrisNode->position = m_debrisNode->position;
-		tempDebris->MoveRandom();
-		tempDebris->m_speed = 2.0f;
-		tempDebris->m_size = 1.5f;
-
-		GetShip()->m_parent->m_renderGroup->Add(tempDebris->m_debrisNode);
-		tempDebris->SetShip(GetShip());
-
-		GetShip()->m_parent->m_debrisList.push_back(tempDebris);
-
-		GetShip()->m_parent->m_renderGroup->Remove(*m_debrisNode);
-		m_debrisNode->RemoveComponent<Material>();
-		m_debrisNode->RemoveComponent<Mesh>();
+			debris->Add<Debris>(speed * 1.5f, static_cast<Size>(size - 1));
+		}
 	}
+}
+
+bool Debris::IsAlive() const
+{
+	return alive;
 }
