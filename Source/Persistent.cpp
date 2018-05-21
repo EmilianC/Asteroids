@@ -18,7 +18,7 @@ void Persistent::Destroy()
 		ptr->RemoveChild(owner);
 	}
 
-	ASSERT(_owningPtr.unique(), "Persistent Entity cannot be destroyed, it has external references.");
+	ASSERT(_owningPtr.use_count() == 1, "Persistent Entity cannot be destroyed, it has external references.");
 	_owningPtr.reset();
 }
 
