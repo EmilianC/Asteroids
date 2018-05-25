@@ -2,6 +2,8 @@
 #include <Jewel3D/Application/Logging.h>
 #include <Jewel3D/Entity/Entity.h>
 
+#include <string>
+
 class Asteroids;
 
 class SpaceShip
