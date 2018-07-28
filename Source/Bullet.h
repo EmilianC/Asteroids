@@ -4,7 +4,7 @@
 class Bullet : public Jwl::Component<Bullet>
 {
 public:
-	Bullet(Jwl::Entity &owner);
+	Bullet(Jwl::Entity& owner);
 
 	void Update();
 	void Destroy();

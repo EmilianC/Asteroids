@@ -2,9 +2,10 @@
 #include "Persistent.h"
 
 #include <Jewel3D/Application/Application.h>
-#include <Jewel3D/Utilities/Random.h>
 #include <Jewel3D/Rendering/Material.h>
 #include <Jewel3D/Rendering/Mesh.h>
+#include <Jewel3D/Resource/Model.h>
+#include <Jewel3D/Utilities/Random.h>
 
 using namespace Jwl;
 
@@ -25,15 +26,15 @@ Debris::Debris(Entity &owner, float _speed, Size _size)
 	switch (size)
 	{
 	case Small:
-		mesh.model = Load<Model>("Models/asteroid_small");
+		mesh.array = Load<Model>("Models/asteroid_small");
 		break;
 
 	case Medium:
-		mesh.model = Load<Model>("Models/asteroid_medium");
+		mesh.array = Load<Model>("Models/asteroid_medium");
 		break;
 
 	case Large:
-		mesh.model = Load<Model>("Models/asteroid_large");
+		mesh.array = Load<Model>("Models/asteroid_large");
 		break;
 	}
 

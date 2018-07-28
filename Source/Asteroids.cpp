@@ -3,11 +3,12 @@
 #include "Bullet.h"
 #include "Persistent.h"
 
-#include <Jewel3D/Sound/SoundSource.h>
-#include <Jewel3D/Sound/SoundListener.h>
-#include <Jewel3D/Rendering/Mesh.h>
-#include <Jewel3D/Rendering/Material.h>
 #include <Jewel3D/Math/Math.h>
+#include <Jewel3D/Rendering/Material.h>
+#include <Jewel3D/Rendering/Mesh.h>
+#include <Jewel3D/Resource/Model.h>
+#include <Jewel3D/Sound/SoundListener.h>
+#include <Jewel3D/Sound/SoundSource.h>
 
 #define NUM_START_ASTEROIDS 4
 

@@ -4,15 +4,16 @@
 #include <Jewel3D/Application/Application.h>
 #include <Jewel3D/Rendering/Material.h>
 #include <Jewel3D/Rendering/Mesh.h>
+#include <Jewel3D/Resource/Model.h>
 #include <Jewel3D/Sound/SoundSource.h>
 
 using namespace Jwl;
 
-Bullet::Bullet(Entity &owner)
+Bullet::Bullet(Entity& owner)
 	: Component(owner)
 {
 	auto& mesh = owner.Require<Mesh>();
-	mesh.model = Load<Model>("Models/asteroid_small");
+	mesh.array = Load<Model>("Models/asteroid_small");
 
 	auto& mat = owner.Require<Material>();
 	mat.shader = Load<Shader>("Shaders/WireFrame");
