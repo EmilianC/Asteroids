@@ -14,6 +14,7 @@ using namespace Jwl;
 
 Game::Game(ConfigTable& _config)
 	: Config(_config)
+	, asteroids(MainGroup)
 {
 }
 
@@ -30,9 +31,7 @@ bool Game::Init()
 	// Setup up renderer.
 	MainRenderPass.SetCamera(MainCamera);
 
-	asteroids.Init(&MainGroup);
-
-	MainGroup.Add(asteroids.spaceShip.m_spaceShipNode);
+	MainGroup.push_back(asteroids.spaceShip.m_spaceShipNode);
 
 	// Setup GL States.
 	SetClearColor(vec4::Zero);

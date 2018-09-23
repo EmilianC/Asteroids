@@ -14,9 +14,9 @@
 
 using namespace Jwl;
 
-void Asteroids::Init(EntityGroup* a_rg)
+Asteroids::Asteroids(std::vector<Entity::Ptr>& a_rg)
+	: renderGroup(a_rg)
 {
-	renderGroup = a_rg;
 	spaceShip.m_parent = this;
 
 	spaceShip.m_spaceShipNode->Add<Mesh>(Load<Model>("Models/ship"));
@@ -40,7 +40,7 @@ void Asteroids::Init(EntityGroup* a_rg)
 	music.SetLooping(true);
 	music.Play();
 
-	renderGroup->Add(background);
+	renderGroup.push_back(background);
 	
 	listener->Add<SoundListener>();
 	listener->RotateY(180.0f);

@@ -1,12 +1,13 @@
 #pragma once
 #include "SpaceShip.h"
 
-#include <Jewel3D/Entity/EntityGroup.h>
+#include <vector>
 
 class Asteroids
 {
 public:
-	void Init(Jwl::EntityGroup* a_rg);
+	Asteroids(std::vector<Jwl::Entity::Ptr>& a_rg);
+
 	void Reset();
 	void Update(float a_deltaT);
 
@@ -14,7 +15,7 @@ public:
 	Jwl::Entity::Ptr background = Jwl::Entity::MakeNew();
 	Jwl::Entity::Ptr listener = Jwl::Entity::MakeNew();
 
-	Jwl::EntityGroup* renderGroup = nullptr;
+	std::vector<Jwl::Entity::Ptr>& renderGroup;
 	bool mainMenu = true;
 
 private:
