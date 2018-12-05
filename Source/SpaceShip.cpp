@@ -92,9 +92,10 @@ void SpaceShip::Update(float a_deltaT)
 		CreateBullet();
 	}
 
-	if (m_velocity.Length() > 1.0f) 
+	float length = Length(m_velocity);
+	if (length > 1.0f) 
 	{
-		m_velocity.Normalize();
+		m_velocity /= length;
 	}
 
 	if (m_speed > 10.0f)

@@ -20,7 +20,7 @@ Debris::Debris(Entity &owner, float _speed, Size _size)
 
 	velocity.x = RandomRange(-1.0f, 1.0f);
 	velocity.z = RandomRange(-1.0f, 1.0f);
-	velocity.Normalize();
+	velocity = Normalize(velocity);
 
 	auto& mesh = owner.Require<Mesh>();
 	switch (size)

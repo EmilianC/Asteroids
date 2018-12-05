@@ -81,7 +81,7 @@ void Asteroids::Update(float a_deltaT)
 			continue;
 
 		if (spaceShip.alive && 
-			(ent->position - spaceShip.m_spaceShipNode->position).LengthSquared() < (debris.size * debris.size))
+			LengthSquared(ent->position - spaceShip.m_spaceShipNode->position) < (debris.size * debris.size))
 		{
 			spaceShip.Destroy();
 			return;
@@ -89,7 +89,7 @@ void Asteroids::Update(float a_deltaT)
 
 		for (auto& bullet : With<Bullet>())
 		{
-			if ((debris.owner.position - bullet.position).LengthSquared() < (debris.size * debris.size))
+			if (LengthSquared(debris.owner.position - bullet.position) < (debris.size * debris.size))
 			{
 				bullet.Get<Persistent>().MarkForDestruction();
 				bullet.Get<SoundSource>().Play();
