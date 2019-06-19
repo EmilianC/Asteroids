@@ -1,4 +1,5 @@
 Log_Output.txt
+Workspace/Files.cache
 *.opendb
 *.TMP
 *.VC.db
