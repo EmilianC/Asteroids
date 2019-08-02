@@ -3,6 +3,8 @@ Workspace/Files.cache
 *.opendb
 *.TMP
 *.VC.db
+*.pdb
+*.user
 obj/
 Assets/
 bin/
