@@ -29,7 +29,7 @@ Asteroids::Asteroids(std::vector<Entity::Ptr>& a_rg)
 	spaceShip.m_deathSound2->Add<SoundSource>(Load<Sound>("Sounds/HeroExplode"));
 
 	background->Add<Mesh>(Load<Model>("Models/background"));
-	background->Add<Material>(Shader::MakeNewPassThrough(), Load<Texture>("Textures/title_background")).CreateUniformBuffers();
+	background->Add<Material>(Load<Texture>("Textures/title_background"));
 	background->Add<SoundSource>(Load<Sound>("Sounds/VictoryMusic"));
 
 	background->RotateX(270.0f);
@@ -41,7 +41,7 @@ Asteroids::Asteroids(std::vector<Entity::Ptr>& a_rg)
 	music.Play();
 
 	renderGroup.push_back(background);
-	
+
 	listener->Add<SoundListener>();
 	listener->RotateY(180.0f);
 }
@@ -80,7 +80,7 @@ void Asteroids::Update(float a_deltaT)
 		if (!debris.IsAlive())
 			continue;
 
-		if (spaceShip.alive && 
+		if (spaceShip.alive &&
 			LengthSquared(ent->position - spaceShip.m_spaceShipNode->position) < (debris.size * debris.size))
 		{
 			spaceShip.Destroy();
