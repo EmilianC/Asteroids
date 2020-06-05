@@ -1,5 +1,7 @@
 #include "Persistent.h"
 
+#include <Jewel3D/Entity/Hierarchy.h>
+
 using namespace Jwl;
 
 Persistent::Persistent(Entity &owner)
@@ -13,9 +15,12 @@ void Persistent::Destroy()
 	alive = false;
 
 	// Unparent the object to remove the strong reference.
-	if (auto ptr = owner.GetParent())
+	if (auto* hierarchy = owner.Try<Hierarchy>())
 	{
-		ptr->RemoveChild(owner);
+		if (auto parent = hierarchy->GetParent())
+		{
+			parent->Get<Hierarchy>().RemoveChild(owner);
+		}
 	}
 
 	ASSERT(_owningPtr.use_count() == 1, "Persistent Entity cannot be destroyed, it has external references.");
