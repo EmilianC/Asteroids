@@ -2,8 +2,8 @@
 #include "Persistent.h"
 
 #include <Jewel3D/Application/Application.h>
-#include <Jewel3D/Rendering/Material.h>
 #include <Jewel3D/Rendering/Mesh.h>
+#include <Jewel3D/Resource/Material.h>
 #include <Jewel3D/Resource/Model.h>
 #include <Jewel3D/Utilities/Random.h>
 
@@ -38,10 +38,8 @@ Debris::Debris(Entity &owner, float _speed, Size _size)
 		break;
 	}
 
-	auto& mat = owner.Require<Material>();
-	mat.shader = Load<Shader>("Shaders/WireFrame");
-	mat.CreateUniformBuffers();
-	mat.buffers[0]->SetUniform("Color", vec3(RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f)));
+	mesh.SetMaterial(Load<Material>("Materials/WireFrame"));
+	mesh.buffers[0]->SetUniform("Color", vec3(RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f)));
 
 	owner.Require<Persistent>();
 }
@@ -73,7 +71,7 @@ void Debris::Update()
 		}
 		else
 		{
-			owner.Get<Material>().buffers[0]->SetUniform("Animation", elapsed);
+			owner.Get<Renderable>().buffers[0]->SetUniform("Animation", elapsed);
 		}
 	}
 }

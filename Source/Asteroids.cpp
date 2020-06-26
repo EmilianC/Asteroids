@@ -4,8 +4,8 @@
 #include "Persistent.h"
 
 #include <Jewel3D/Math/Math.h>
-#include <Jewel3D/Rendering/Material.h>
 #include <Jewel3D/Rendering/Mesh.h>
+#include <Jewel3D/Resource/Material.h>
 #include <Jewel3D/Resource/Model.h>
 #include <Jewel3D/Sound/SoundListener.h>
 #include <Jewel3D/Sound/SoundSource.h>
@@ -19,17 +19,14 @@ Asteroids::Asteroids(std::vector<Entity::Ptr>& a_rg)
 {
 	spaceShip.m_parent = this;
 
-	spaceShip.m_spaceShipNode->Add<Mesh>(Load<Model>("Models/ship"));
-	spaceShip.m_spaceShipNode->Add<Material>(Load<Shader>("Shaders/WireFrame")).CreateUniformBuffers();
-	spaceShip.m_spaceShipNode->Get<Material>().buffers[0]->SetUniform("Color", vec3(1.0f, 1.0f, 1.0f));
+	spaceShip.m_spaceShipNode->Add<Mesh>(Load<Model>("Models/ship"), Load<Material>("Materials/Wireframe"));
 	spaceShip.m_spaceShipNode->Add<SoundSource>(Load<Sound>("Sounds/HeroBullet"));
 
 	spaceShip.m_victorySound->Add<SoundSource>(Load<Sound>("Sounds/Victory"));
 	spaceShip.m_deathSound->Add<SoundSource>(Load<Sound>("Sounds/Intro"));
 	spaceShip.m_deathSound2->Add<SoundSource>(Load<Sound>("Sounds/HeroExplode"));
 
-	background->Add<Mesh>(Load<Model>("Models/background"));
-	background->Add<Material>(Load<Texture>("Textures/title_background"));
+	background->Add<Mesh>(Load<Model>("Models/background"), Load<Material>("Materials/TitleBackground"));
 	background->Add<SoundSource>(Load<Sound>("Sounds/VictoryMusic"));
 
 	background->RotateX(270.0f);

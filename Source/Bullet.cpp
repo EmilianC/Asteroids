@@ -2,8 +2,8 @@
 #include "Persistent.h"
 
 #include <Jewel3D/Application/Application.h>
-#include <Jewel3D/Rendering/Material.h>
 #include <Jewel3D/Rendering/Mesh.h>
+#include <Jewel3D/Resource/Material.h>
 #include <Jewel3D/Resource/Model.h>
 #include <Jewel3D/Sound/SoundSource.h>
 
@@ -13,11 +13,8 @@ Bullet::Bullet(Entity& owner)
 	: Component(owner)
 {
 	auto& mesh = owner.Require<Mesh>();
+	mesh.SetMaterial(Load<Material>("Materials/WireFrame"));
 	mesh.array = Load<Model>("Models/asteroid_small");
-
-	auto& mat = owner.Require<Material>();
-	mat.shader = Load<Shader>("Shaders/WireFrame");
-	mat.CreateUniformBuffers();
 
 	auto& sound = owner.Require<SoundSource>();
 	sound.SetData(Load<Sound>("Sounds/AlienExplode"));

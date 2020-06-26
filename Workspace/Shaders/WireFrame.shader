@@ -1,6 +1,6 @@
 Uniforms
 {
-	template Material : 0
+	instance Material : 0
 	{
 		vec3 Color = (1, 1, 1);
 		float Animation = 0.0;

@@ -6,7 +6,7 @@
 #include <Jewel3D/Input/Input.h>
 #include <Jewel3D/Sound/SoundSource.h>
 #include <Jewel3D/Rendering/Mesh.h>
-#include <Jewel3D/Rendering/Material.h>
+#include <Jewel3D/Resource/Material.h>
 
 using namespace Jwl;
 
@@ -26,14 +26,14 @@ void SpaceShip::Update(float a_deltaT)
 
 			m_parent->Reset();
 			m_parent->mainMenu = true;
-			m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/title_background");
-			m_spaceShipNode->Get<Material>().buffers[0]->SetUniform("Animation", 0.0f);
+			m_parent->background->Get<Renderable>().SetMaterial(Load<Material>("Materials/TitleBackground"));
+			m_spaceShipNode->Get<Renderable>().buffers[0]->SetUniform("Animation", 0.0f);
 
 			m_parent->background->Get<SoundSource>().Play();
 		}
 		else
 		{
-			m_spaceShipNode->Get<Material>().buffers[0]->SetUniform("Animation", elapsed);
+			m_spaceShipNode->Get<Renderable>().buffers[0]->SetUniform("Animation", elapsed);
 		}
 
 		return;
@@ -44,7 +44,7 @@ void SpaceShip::Update(float a_deltaT)
 		if (m_parent->mainMenu)
 		{
 			m_parent->mainMenu = false;
-			m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
+			m_parent->background->Get<Renderable>().SetMaterial(Load<Material>("Materials/AsteroidsBackground"));
 
 			m_parent->background->Get<SoundSource>().Stop();
 		}
@@ -58,7 +58,7 @@ void SpaceShip::Update(float a_deltaT)
 		if (m_parent->mainMenu)
 		{
 	 		m_parent->mainMenu = false;
-			m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
+			m_parent->background->Get<Renderable>().SetMaterial(Load<Material>("Materials/AsteroidsBackground"));
 			m_parent->background->Get<SoundSource>().Stop();
 		}
 
@@ -81,7 +81,7 @@ void SpaceShip::Update(float a_deltaT)
 		if (m_parent->mainMenu)
 		{
 			m_parent->mainMenu = false;
-			m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/asteroids_background");
+			m_parent->background->Get<Renderable>().SetMaterial(Load<Material>("Materials/AsteroidsBackground"));
 			m_parent->background->Get<SoundSource>().Stop();
 		}
 
@@ -126,7 +126,7 @@ void SpaceShip::Update(float a_deltaT)
 		m_level = m_level + 1;
 		m_parent->Reset();
 		m_parent->mainMenu = true;
-		m_parent->background->Get<Material>().textures[0] = Load<Texture>("Textures/finished_background");
+		m_parent->background->Get<Renderable>().SetMaterial(Load<Material>("Materials/FinishedBackground"));
 
 		Log("\nNext Level!\n");
 
