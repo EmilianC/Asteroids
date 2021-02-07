@@ -1,8 +1,8 @@
 #include "Persistent.h"
 
-#include <Jewel3D/Entity/Hierarchy.h>
+#include <gemcutter/Entity/Hierarchy.h>
 
-using namespace Jwl;
+using namespace gem;
 
 Persistent::Persistent(Entity &owner)
 	: Component(owner)

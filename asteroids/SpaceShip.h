@@ -1,6 +1,6 @@
 #pragma once
-#include <Jewel3D/Application/Logging.h>
-#include <Jewel3D/Entity/Entity.h>
+#include <gemcutter/Application/Logging.h>
+#include <gemcutter/Entity/Entity.h>
 
 #include <string>
 
@@ -12,7 +12,7 @@ public:
 	void AddScore(int a_score)
 	{
 		m_score += a_score * m_level;
-		Jwl::Log("Score is " + std::to_string(m_score));
+		gem::Log("Score is " + std::to_string(m_score));
 	}
 
 	void Update(float a_deltaT);
@@ -22,18 +22,18 @@ public:
 	void Reset()
 	{
 		alive = true;
-		m_velocity = Jwl::vec3::Zero;
-		m_spaceShipNode->position = Jwl::vec3::Zero;
-		m_spaceShipNode->rotation = Jwl::quat::Identity;
+		m_velocity = gem::vec3::Zero;
+		m_spaceShipNode->position = gem::vec3::Zero;
+		m_spaceShipNode->rotation = gem::quat::Identity;
 		m_speed = 0.0f;
 		m_coolDown = 0.0f;
 		m_spaceShipNode->Enable();
 	}
 
-	Jwl::Entity::Ptr m_spaceShipNode = Jwl::Entity::MakeNew();
-	Jwl::Entity::Ptr m_victorySound = Jwl::Entity::MakeNew();
-	Jwl::Entity::Ptr m_deathSound = Jwl::Entity::MakeNew();
-	Jwl::Entity::Ptr m_deathSound2 = Jwl::Entity::MakeNew();
+	gem::Entity::Ptr m_spaceShipNode = gem::Entity::MakeNew();
+	gem::Entity::Ptr m_victorySound = gem::Entity::MakeNew();
+	gem::Entity::Ptr m_deathSound = gem::Entity::MakeNew();
+	gem::Entity::Ptr m_deathSound2 = gem::Entity::MakeNew();
 
 	int m_level = 1;
 	Asteroids* m_parent = nullptr;
@@ -42,7 +42,7 @@ public:
 private:
 	void CreateBullet();
 
-	Jwl::vec3 m_velocity;
+	gem::vec3 m_velocity;
 	int m_score = 0;
 	float m_speed = 0.0f;
 	float m_coolDown = 0.0f;

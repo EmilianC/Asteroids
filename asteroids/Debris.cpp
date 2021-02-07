@@ -1,13 +1,13 @@
 #include "Debris.h"
 #include "Persistent.h"
 
-#include <Jewel3D/Application/Application.h>
-#include <Jewel3D/Rendering/Mesh.h>
-#include <Jewel3D/Resource/Material.h>
-#include <Jewel3D/Resource/Model.h>
-#include <Jewel3D/Utilities/Random.h>
+#include <gemcutter/Application/Application.h>
+#include <gemcutter/Rendering/Mesh.h>
+#include <gemcutter/Resource/Material.h>
+#include <gemcutter/Resource/Model.h>
+#include <gemcutter/Utilities/Random.h>
 
-using namespace Jwl;
+using namespace gem;
 
 Debris::Debris(Entity &owner, float _speed, Size _size)
 	: Component(owner)

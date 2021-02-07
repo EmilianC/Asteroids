@@ -1,11 +1,11 @@
 #pragma once
 #include "Asteroids.h"
 
-#include <Jewel3D/Entity/Entity.h>
-#include <Jewel3D/Rendering/RenderPass.h>
+#include <gemcutter/Entity/Entity.h>
+#include <gemcutter/Rendering/RenderPass.h>
 #include <vector>
 
-namespace Jwl
+namespace gem
 {
 	class ConfigTable;
 }
@@ -13,7 +13,7 @@ namespace Jwl
 class Game
 {
 public:
-	Game(Jwl::ConfigTable& config);
+	Game(gem::ConfigTable& config);
 
 	bool Init();
 	void Exit();
@@ -22,13 +22,13 @@ public:
 	void Draw();
 
 private:
-	std::vector<Jwl::Entity::Ptr> MainGroup;
-	Jwl::RenderPass MainRenderPass;
+	std::vector<gem::Entity::Ptr> MainGroup;
+	gem::RenderPass MainRenderPass;
 	
-	Jwl::Entity::Ptr MainCamera = Jwl::Entity::MakeNew();
-	Jwl::Entity::Ptr RootNode = Jwl::Entity::MakeNew();
+	gem::Entity::Ptr MainCamera = gem::Entity::MakeNew();
+	gem::Entity::Ptr RootNode = gem::Entity::MakeNew();
 
-	Jwl::ConfigTable& Config;
+	gem::ConfigTable& Config;
 
 	Asteroids asteroids;
 };

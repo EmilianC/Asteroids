@@ -1,13 +1,13 @@
 #include "Bullet.h"
 #include "Persistent.h"
 
-#include <Jewel3D/Application/Application.h>
-#include <Jewel3D/Rendering/Mesh.h>
-#include <Jewel3D/Resource/Material.h>
-#include <Jewel3D/Resource/Model.h>
-#include <Jewel3D/Sound/SoundSource.h>
+#include <gemcutter/Application/Application.h>
+#include <gemcutter/Rendering/Mesh.h>
+#include <gemcutter/Resource/Material.h>
+#include <gemcutter/Resource/Model.h>
+#include <gemcutter/Sound/SoundSource.h>
 
-using namespace Jwl;
+using namespace gem;
 
 Bullet::Bullet(Entity& owner)
 	: Component(owner)

@@ -1,7 +1,7 @@
 #pragma once
-#include <Jewel3D/Entity/Entity.h>
+#include <gemcutter/Entity/Entity.h>
 
-class Debris : public Jwl::Component<Debris>
+class Debris : public gem::Component<Debris>
 {
 public:
 	enum Size
@@ -11,7 +11,7 @@ public:
 		Large = 3
 	};
 
-	Debris(Jwl::Entity &owner, float speed, Size size);
+	Debris(gem::Entity &owner, float speed, Size size);
 
 	void Update();
 	void Destroy();
@@ -22,8 +22,8 @@ public:
 	const unsigned scoreValue;
 
 private:
-	Jwl::vec3 randomSpin[2];
-	Jwl::vec3 velocity;
+	gem::vec3 randomSpin[2];
+	gem::vec3 velocity;
 	
 	bool alive = true;
 	float elapsed = 0.0f;

@@ -1,10 +1,10 @@
 #pragma once
-#include <Jewel3D/Entity/Entity.h>
+#include <gemcutter/Entity/Entity.h>
 
-class Bullet : public Jwl::Component<Bullet>
+class Bullet : public gem::Component<Bullet>
 {
 public:
-	Bullet(Jwl::Entity& owner);
+	Bullet(gem::Entity& owner);
 
 	void Update();
 	void Destroy();
