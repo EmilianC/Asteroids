@@ -6,16 +6,16 @@
 class Asteroids
 {
 public:
-	Asteroids(std::vector<Jwl::Entity::Ptr>& a_rg);
+	Asteroids(std::vector<gem::Entity::Ptr>& a_rg);
 
 	void Reset();
 	void Update(float a_deltaT);
 
 	SpaceShip spaceShip;
-	Jwl::Entity::Ptr background = Jwl::Entity::MakeNew();
-	Jwl::Entity::Ptr listener = Jwl::Entity::MakeNew();
+	gem::Entity::Ptr background = gem::Entity::MakeNew();
+	gem::Entity::Ptr listener = gem::Entity::MakeNew();
 
-	std::vector<Jwl::Entity::Ptr>& renderGroup;
+	std::vector<gem::Entity::Ptr>& renderGroup;
 	bool mainMenu = true;
 
 private:

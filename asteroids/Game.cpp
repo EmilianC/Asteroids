@@ -3,14 +3,14 @@
 #include "Bullet.h"
 #include "Debris.h"
 
-#include <Jewel3D/Application/Application.h>
-#include <Jewel3D/Rendering/Rendering.h>
-#include <Jewel3D/Resource/Shader.h>
-#include <Jewel3D/Sound/SoundSystem.h>
-#include <Jewel3D/Rendering/Camera.h>
-#include <Jewel3D/Input/Input.h>
+#include <gemcutter/Application/Application.h>
+#include <gemcutter/Rendering/Rendering.h>
+#include <gemcutter/Resource/Shader.h>
+#include <gemcutter/Sound/SoundSystem.h>
+#include <gemcutter/Rendering/Camera.h>
+#include <gemcutter/Input/Input.h>
 
-using namespace Jwl;
+using namespace gem;
 
 Game::Game(ConfigTable& _config)
 	: Config(_config)

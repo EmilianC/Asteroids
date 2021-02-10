@@ -1,13 +1,13 @@
 #pragma once
-#include <Jewel3D/Entity/Entity.h>
+#include <gemcutter/Entity/Entity.h>
 
 //- Allows an Entity to manage its own lifetime.
 //- An Entity with this component will not be deleted until MarkForDestruction() or Destroy() are called.
 //- For example, a projectile can keep itself alive until it collides with another entity.
-class Persistent : public Jwl::Component<Persistent>
+class Persistent : public gem::Component<Persistent>
 {
 public:
-	Persistent(Jwl::Entity &owner);
+	Persistent(gem::Entity &owner);
 
 	void Destroy();
 	void MarkForDestruction();
@@ -19,5 +19,5 @@ public:
 
 private:
 	bool alive = true;
-	Jwl::Entity::Ptr _owningPtr;
+	gem::Entity::Ptr _owningPtr;
 };

@@ -3,12 +3,12 @@
 #include "Debris.h"
 #include "SpaceShip.h"
 
-#include <Jewel3D/Input/Input.h>
-#include <Jewel3D/Sound/SoundSource.h>
-#include <Jewel3D/Rendering/Mesh.h>
-#include <Jewel3D/Resource/Material.h>
+#include <gemcutter/Input/Input.h>
+#include <gemcutter/Sound/SoundSource.h>
+#include <gemcutter/Rendering/Mesh.h>
+#include <gemcutter/Resource/Material.h>
 
-using namespace Jwl;
+using namespace gem;
 
 void SpaceShip::Update(float a_deltaT)
 {

@@ -3,16 +3,16 @@
 #include "Bullet.h"
 #include "Persistent.h"
 
-#include <Jewel3D/Math/Math.h>
-#include <Jewel3D/Rendering/Mesh.h>
-#include <Jewel3D/Resource/Material.h>
-#include <Jewel3D/Resource/Model.h>
-#include <Jewel3D/Sound/SoundListener.h>
-#include <Jewel3D/Sound/SoundSource.h>
+#include <gemcutter/Math/Math.h>
+#include <gemcutter/Rendering/Mesh.h>
+#include <gemcutter/Resource/Material.h>
+#include <gemcutter/Resource/Model.h>
+#include <gemcutter/Sound/SoundListener.h>
+#include <gemcutter/Sound/SoundSource.h>
 
 #define NUM_START_ASTEROIDS 4
 
-using namespace Jwl;
+using namespace gem;
 
 Asteroids::Asteroids(std::vector<Entity::Ptr>& a_rg)
 	: renderGroup(a_rg)

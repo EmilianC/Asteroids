@@ -1,3 +1,3 @@
 ![Asteroids Logo](Splash.png)
 
-Small game demo for the Jewel3D framework.
+This is a small game demo for the [Gemcutter framework](https://github.com/EmilianC/Gemcutter).
