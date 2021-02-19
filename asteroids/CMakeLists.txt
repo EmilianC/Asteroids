@@ -17,6 +17,7 @@ list(APPEND asteroids_files
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${asteroids_files})
 
 add_executable(asteroids WIN32 ${asteroids_files})
+add_dependencies(asteroids ASSETS)
 sf_target_compile_warnings(asteroids)
 sf_target_compile_warnings_as_errors(asteroids OPTIONAL)
 
