@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${Jewel3D_Path}Build/include/"
+				"${workspaceFolder}/external/gemcutter/gemcutter/"
             ],
             "defines": [
                 "_DEBUG",
