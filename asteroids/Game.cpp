@@ -25,7 +25,7 @@ bool Game::Init()
 
 	// Setup Camera.
 	MainCamera->Add<Camera>(20.0f, -20.0f, -20.0f, 20.0f, 0.0f, 20.0f);
-	MainCamera->position = vec3::Up * 10.0f;
+	MainCamera->position = vec3(0.0f, 10.0f, 0.0f);
 	MainCamera->RotateX(270.0f);
 
 	// Setup up renderer.
@@ -70,6 +70,7 @@ void Game::Draw()
 {
 	ClearBackBuffer();
 
+	MainRenderPass.Bind();
 	MainRenderPass.Render(MainGroup);
 
 	for (auto& bullet : With<Bullet>())

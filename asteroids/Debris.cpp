@@ -26,20 +26,20 @@ Debris::Debris(Entity &owner, float _speed, Size _size)
 	switch (size)
 	{
 	case Small:
-		mesh.array = Load<Model>("Models/asteroid_small");
+		mesh.SetModel(Load<Model>("Models/asteroid_small"));
 		break;
 
 	case Medium:
-		mesh.array = Load<Model>("Models/asteroid_medium");
+		mesh.SetModel(Load<Model>("Models/asteroid_medium"));
 		break;
 
 	case Large:
-		mesh.array = Load<Model>("Models/asteroid_large");
+		mesh.SetModel(Load<Model>("Models/asteroid_large"));
 		break;
 	}
 
 	mesh.SetMaterial(Load<Material>("Materials/WireFrame"));
-	mesh.buffers[0]->SetUniform("Color", vec3(RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f)));
+	mesh.buffers[0].SetUniform("Color", vec3(RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f), RandomRange(0.2f, 1.0f)));
 
 	owner.Require<Persistent>();
 }
@@ -71,7 +71,7 @@ void Debris::Update()
 		}
 		else
 		{
-			owner.Get<Renderable>().buffers[0]->SetUniform("Animation", elapsed);
+			owner.Get<Renderable>().buffers[0].SetUniform("Animation", elapsed);
 		}
 	}
 }

@@ -14,7 +14,7 @@ Bullet::Bullet(Entity& owner)
 {
 	auto& mesh = owner.Require<Mesh>();
 	mesh.SetMaterial(Load<Material>("Materials/WireFrame"));
-	mesh.array = Load<Model>("Models/asteroid_small");
+	mesh.SetModel(Load<Model>("Models/asteroid_small"));
 
 	auto& sound = owner.Require<SoundSource>();
 	sound.SetData(Load<Sound>("Sounds/AlienExplode"));
@@ -31,7 +31,7 @@ void Bullet::Update()
 		return;
 	}
 
-	owner.position += owner.rotation.GetForward() * 20.0f * Application.GetDeltaTime();
+	owner.position -= owner.rotation.GetForward() * 20.0f * Application.GetDeltaTime();
 
 	// Wrap around the screen.
 	if (abs(owner.position.x) > 22.5f)

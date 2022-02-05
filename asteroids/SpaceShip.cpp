@@ -27,13 +27,13 @@ void SpaceShip::Update(float a_deltaT)
 			m_parent->Reset();
 			m_parent->mainMenu = true;
 			m_parent->background->Get<Renderable>().SetMaterial(Load<Material>("Materials/TitleBackground"));
-			m_spaceShipNode->Get<Renderable>().buffers[0]->SetUniform("Animation", 0.0f);
+			m_spaceShipNode->Get<Renderable>().buffers[0].SetUniform("Animation", 0.0f);
 
 			m_parent->background->Get<SoundSource>().Play();
 		}
 		else
 		{
-			m_spaceShipNode->Get<Renderable>().buffers[0]->SetUniform("Animation", elapsed);
+			m_spaceShipNode->Get<Renderable>().buffers[0].SetUniform("Animation", elapsed);
 		}
 
 		return;
@@ -49,7 +49,7 @@ void SpaceShip::Update(float a_deltaT)
 			m_parent->background->Get<SoundSource>().Stop();
 		}
 
-		m_velocity += m_spaceShipNode->rotation.GetForward() * a_deltaT;
+		m_velocity += m_spaceShipNode->rotation * vec3(0.0f, 0.0f, a_deltaT);
 		m_speed += 3.0f * a_deltaT;
 	}
 
@@ -62,7 +62,7 @@ void SpaceShip::Update(float a_deltaT)
 			m_parent->background->Get<SoundSource>().Stop();
 		}
 
-		m_velocity += m_spaceShipNode->rotation.GetForward() * a_deltaT;
+		m_velocity += m_spaceShipNode->rotation * vec3(0.0f, 0.0f, a_deltaT);
 		m_speed -= 3.0f * a_deltaT;
 	}
 
@@ -140,7 +140,7 @@ void SpaceShip::CreateBullet()
 	bullet->Add<Bullet>();
 
 	bullet->rotation = m_spaceShipNode->rotation;
-	bullet->position = m_spaceShipNode->position + m_spaceShipNode->rotation.GetForward() * 1.5f;
+	bullet->position = m_spaceShipNode->position + m_spaceShipNode->rotation * vec3(0.0f, 0.0f, 1.5f);
 }
 
 void SpaceShip::Destroy()

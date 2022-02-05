@@ -6,6 +6,8 @@
 #include <gemcutter/Resource/Resource.h>
 #include <gemcutter/Sound/SoundSystem.h>
 #include <gemcutter/Utilities/Random.h>
+#include <Windows.h>
+#undef SetCurrentDirectory
 
 #include "Game.h"
 
@@ -45,8 +47,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
 		}
 	}
 
-	/* Set Asset Directory */
-	RootAssetDirectory = config.GetString("asset_directory");
+	/* Move to Asset Directory */
+	if (config.HasSetting("asset_directory"))
+	{
+		SetCurrentDirectory(config.GetString("asset_directory"));
+	}
 
 	/* Resolve 'auto' settings */
 	RECT desktop;
