@@ -21,7 +21,6 @@ Game::Game(ConfigTable& _config)
 bool Game::Init()
 {
 	SoundSystem.SetGlobalVolume(0.2f);
-	SoundSystem.SetAttenuationMode(AttenuationMode::None);
 
 	// Setup Camera.
 	MainCamera->Add<Camera>(20.0f, -20.0f, -20.0f, 20.0f, 0.0f, 20.0f);

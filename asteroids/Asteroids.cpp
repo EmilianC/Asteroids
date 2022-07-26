@@ -27,15 +27,11 @@ Asteroids::Asteroids(std::vector<Entity::Ptr>& a_rg)
 	spaceShip.m_deathSound2->Add<SoundSource>(Load<Sound>("Sounds/HeroExplode"));
 
 	background->Add<Mesh>(Load<Model>("Models/background"), Load<Material>("Materials/TitleBackground"));
-	background->Add<SoundSource>(Load<Sound>("Sounds/VictoryMusic"));
+	background->Add<SoundSource>(Load<Sound>("Sounds/VictoryMusic")).Play();
 
 	background->RotateX(270.0f);
 	background->scale = -vec3::One * 20.0f;
 	background->position -= vec3::Up * 5.0f;
-
-	SoundSource &music = background->Get<SoundSource>();
-	music.SetLooping(true);
-	music.Play();
 
 	renderGroup.push_back(background);
 
