@@ -49,3 +49,5 @@ void Bullet::Destroy()
 {
 	owner.Get<Persistent>().MarkForDestruction();
 }
+
+REFLECT_COMPONENT_SIMPLE(Bullet);

@@ -50,3 +50,5 @@ void Persistent::Collect()
 		}
 	}
 }
+
+REFLECT_COMPONENT_SIMPLE(Persistent);

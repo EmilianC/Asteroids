@@ -99,3 +99,5 @@ bool Debris::IsAlive() const
 {
 	return alive;
 }
+
+REFLECT_COMPONENT_SIMPLE(Debris);
