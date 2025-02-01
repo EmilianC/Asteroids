@@ -50,4 +50,4 @@ void Bullet::Destroy()
 	owner.Get<Persistent>().MarkForDestruction();
 }
 
-REFLECT_COMPONENT_SIMPLE(Bullet);
+REFLECT_COMPONENT(Bullet, gem::ComponentBase) REF_END;

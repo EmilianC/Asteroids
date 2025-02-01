@@ -41,7 +41,7 @@ void Persistent::Collect()
 {
 	auto& index = GetComponentIndex<Persistent>();
 
-	for (unsigned i = index.size(); i-- > 0;)
+	for (size_t i = index.size(); i-- > 0;)
 	{
 		auto ptr = static_cast<Persistent*>(index[i]);
 		if (ptr->IsMarkedForDestruction())
@@ -51,4 +51,4 @@ void Persistent::Collect()
 	}
 }
 
-REFLECT_COMPONENT_SIMPLE(Persistent);
+REFLECT_COMPONENT(Persistent, gem::ComponentBase) REF_END;

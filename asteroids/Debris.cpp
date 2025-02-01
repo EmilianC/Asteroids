@@ -9,6 +9,14 @@
 
 using namespace gem;
 
+Debris::Debris(gem::Entity &owner)
+	: Component(owner)
+	, speed(0.0f)
+	, size(Size::Small)
+	, scoreValue(0)
+{
+}
+
 Debris::Debris(Entity &owner, float _speed, Size _size)
 	: Component(owner)
 	, speed(_speed)
@@ -100,4 +108,4 @@ bool Debris::IsAlive() const
 	return alive;
 }
 
-REFLECT_COMPONENT_SIMPLE(Debris);
+REFLECT_COMPONENT(Debris, gem::ComponentBase) REF_END;

@@ -11,6 +11,7 @@ public:
 		Large = 3
 	};
 
+	Debris(gem::Entity &owner);
 	Debris(gem::Entity &owner, float speed, Size size);
 
 	void Update();
